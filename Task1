@@ -1,0 +1,30 @@
+from sumy.parsers.plaintext import PlaintextParser
+from sumy.nlp.tokenizers import Tokenizer
+from sumy.summarizers.lsa import LsaSummarizer
+import nltk
+
+nltk.download('punkt')
+
+def summarize_text(input_text, num_sentences=3):
+    parser = PlaintextParser.from_string(input_text, Tokenizer("english"))
+    summarizer = LsaSummarizer()
+    summary = summarizer(parser.document, num_sentences)
+    summarized_text = " ".join(str(sentence) for sentence in summary)
+    return summarized_text
+
+if __name__ == "__main__":
+    print("🔹 TEXT SUMMARIZATION TOOL 🔹")
+    print("Paste your lengthy article below (press Enter twice to end):\n")
+
+    lines = []
+    while True:
+        line = input()
+        if line == "":
+            break
+        lines.append(line)
+
+    full_text = "\n".join(lines)
+    summary_result = summarize_text(full_text, num_sentences=3)
+    
+    print("\n🔸 SUMMARY 🔸")
+    print(summary_result)
