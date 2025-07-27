@@ -1,0 +1,23 @@
+import speech_recognition as sr
+
+# Create recognizer
+recognizer = sr.Recognizer()
+
+# Load your audio file
+with sr.AudioFile('sample.wav') as source:
+    print("Listening to the audio...")
+    audio = recognizer.record(source)
+
+# Try converting to text
+try:
+    text = recognizer.recognize_google(audio)
+    print("Transcribed text:", text)
+
+    # Save to output.txt
+    with open("output.txt", "w") as f:
+        f.write(text)
+
+except sr.UnknownValueError:
+    print("Could not understand the audio.")
+except sr.RequestError:
+    print("Error connecting to Google service.")
